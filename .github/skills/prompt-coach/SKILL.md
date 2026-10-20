@@ -26,18 +26,22 @@ local como fuente de verdad para evaluar. No juzgues la calidad "a ojo": mide pr
    `python .github/skills/prompt-coach/scripts/call_api.py refine "<prompt>"`
    Completa cada `[Completa: ...]` del campo `refined_prompt`:
    - Si el usuario ya dio el dato, úsalo.
-   - Si no, haz como máximo **3 preguntas breves** o asume un valor razonable y márcalo como *supuesto*.
+   - Si no lo dio, escribe un valor razonable **dentro del prompt con la etiqueta `[Supuesto: ...]`**.
+   - Haz como máximo **3 preguntas breves**, solo si el pedido es ambiguo en lo esencial.
+   Agrega al final del prompt una sección **Criterios de aceptación** (2-3 puntos)
+   derivados únicamente del pedido original del usuario.
 5. **Responde** con este formato exacto:
    - **Puntaje inicial:** `score` y `level`.
    - **Qué faltaba:** lista de criterios fallidos (campo `missing`).
    - **Prompt mejorado:** en un bloque de código.
-   - **Supuestos:** solo si los hubo.
+   - **Supuestos:** lista de todo lo marcado como `[Supuesto: ...]`, o "ninguno".
 
 ## Reglas
 
 - Nunca inventes resultados de la API. Si no responde, dilo y detente; como alternativa
   manual consulta `references/criteria.md`, indicando que la evaluación no es verificada.
-- No agregues requisitos que el usuario no pidió; solo completa lo que la API marcó como faltante.
+- Todo lo que el usuario no dijo debe ir etiquetado como `[Supuesto: ...]` dentro del prompt;
+  nunca lo presentes como requisito firme ni agregues funciones nuevas sin etiquetar.
 - Mantén el idioma del prompt original.
 
 ## Recursos
